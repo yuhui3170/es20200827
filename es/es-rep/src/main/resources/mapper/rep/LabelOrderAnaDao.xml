@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dianzi.es.rep.dao.LableOrderAnaDao">
+
+
+    <select id="GetOrdersByTypesMonths" resultType="com.dianzi.es.rep.vo.LabelOrdersByMonth" >
+
+        SELECT n.type_name,m.mon,m.orders FROM (
+          SELECT
+            COUNT(a.`urgent_order`) AS orders,
+            b.`type_id` ,
+            DATE_FORMAT(accept_time,'%Y-%m') AS mon
+          FROM rep_urgentorder a,rep_labels b
+          WHERE a.label_id = b.label_id
+            AND DATE_FORMAT(a.accept_time ,'%Y-%m') > DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 12 MONTH),'%Y-%m')
+            GROUP BY mon,b.type_id
+            ORDER BY b.`type_id`,mon
+        ) m,
+        rep_labels_type n
+        WHERE m.type_id = n.type_id
+        ORDER BY n.type_name,m.mon
+
+    </select>
+
+
+</mapper>

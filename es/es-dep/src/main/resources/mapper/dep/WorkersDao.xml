@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dianzi.es.dep.dao.WorkersDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.dianzi.es.dep.entity.WorkersEntity" id="workersMap">
+        <result property="workerId" column="worker_id"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="workerName" column="worker_name"/>
+        <result property="workerBirth" column="worker_birth"/>
+        <result property="workerPosition" column="worker_position"/>
+        <result property="ordersReceived" column="orders_received"/>
+        <result property="ordersFinished" column="orders_finished"/>
+        <result property="remark" column="remark"/>
+        <result property="workPic" column="worker_pic"/>
+        <result property="workNickname" column="worker_nickname"/>
+        <result property="workMobile" column="worker_mobile"/>
+        <result property="workPassword" column="work_password"/>
+    </resultMap>
+
+    <select id="getByData" resultType="com.dianzi.es.dep.entity.WorkersEntity">
+        select *
+        from dep_workers
+        where 1=1
+        -- 仅根据手机号获取用户信息
+        <if test='mobile!=null and mobile!="" and (workerId==null or workerId=="")'>
+        and work_mobile = #{mobile}
+        </if>
+        -- 仅根据用户名获取用户信息
+        <if test='username!= null and username!="" and (workerId==null or workerId=="")'>
+            and work_nickname = #{username}
+        </if>
+        -- 根据用户名密码获取用户信息
+        <if test='username!= null and username!="" and password!=null and password!=""'>
+            and (work_nickname=#{username} or work_mobile=#{username}) and work_password=#{password}
+        </if>
+        -- 根据用户名获取用户信息，并排除某个人
+        <if test='username!= null and username!="" and workerId!=null and workerId!=""'>
+            and work_nickname = #{username} and worker_id &lt;&gt; #{workerId}
+        </if>
+        -- 根据手机号获取用户信息，并排除某个人
+        <if test='mobile!=null and mobile!="" and workerId!=null and workerId!=""'>
+            and work_mobile = #{mobile}  and worker_id &lt;&gt; #{workerId}
+        </if>
+    </select>
+
+    <update id="updateByMobile">
+        update dep_workers set work_password = #{password} where work_mobile = #{mobile}
+    </update>
+
+    <update id="updateMobileByMobile">
+        update dep_workers set work_mobile = #{mobile} where work_mobile = #{oldMobile}
+    </update>
+
+    <insert id="save_limit">
+        insert into dep_workers(resource_id,worker_name,worker_birth,worker_position,orders_received,orders_finished,remark,work_pic,work_nickname,work_mobile,work_password)
+        values(#{resourceId},#{workerName},#{workerBirth},#{workerPosition},#{ordersReceived},#{ordersFinished},#{remark},#{workPic},#{workNickname},#{workMobile},#{workPassword})
+    </insert>
+
+    <update id="update_limit">
+        update dep_workers
+        <set>
+            ,resource_id = #{resourceId}
+            ,worker_name = #{workerName}
+            ,worker_birth = #{workerBirth}
+            ,worker_position = #{workerPosition}
+            ,remark = #{remark}
+            ,work_pic = #{workPic}
+            ,work_nickname = #{workNickname}
+            ,work_mobile = #{workMobile}
+        </set>
+        where worker_id = #{workerId}
+    </update>
+</mapper>

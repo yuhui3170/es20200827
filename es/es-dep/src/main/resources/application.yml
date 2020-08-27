@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.7.80:3306/es_dep?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+  application:
+    name: es-dep
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 9000
+
+logging:
+  level:
+    com.dianzi.es: debug

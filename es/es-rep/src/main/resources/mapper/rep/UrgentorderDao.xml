@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dianzi.es.rep.dao.UrgentorderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.dianzi.es.rep.entity.UrgentorderEntity" id="urgentorderMap">
+        <result property="id" column="id"/>
+        <result property="reporterOrder" column="reporter_order"/>
+        <result property="urgentOrder" column="urgent_order"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="acceptTime" column="accept_time"/>
+        <result property="dispatchTime" column="dispatch_time"/>
+        <result property="arrivedTime" column="arrived_time"/>
+        <result property="repairedTime" column="repaired_time"/>
+        <result property="accidentReason" column="accident_reason"/>
+        <result property="repairedContent" column="repaired_content"/>
+        <result property="evaluateContent" column="evaluate_content"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+
+</mapper>

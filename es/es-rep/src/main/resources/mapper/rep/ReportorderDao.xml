@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dianzi.es.rep.dao.ReportorderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.dianzi.es.rep.entity.ReportorderEntity" id="reportorderMap">
+        <result property="id" column="id"/>
+        <result property="reporterOrder" column="reporter_order"/>
+        <result property="reporterName" column="reporter_name"/>
+        <result property="reporterPhone" column="reporter_phone"/>
+        <result property="reporterTime" column="reporter_time"/>
+        <result property="reporterAddr" column="reporter_addr"/>
+        <result property="accidentAddr" column="accident_addr"/>
+        <result property="accidentLabel" column="accident_label"/>
+        <result property="accidentContent" column="accident_content"/>
+        <result property="accidentPic" column="accident_pic"/>
+        <result property="resourceRecommend" column="resource_recommend"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <insert id="insert">
+        insert into rep_reportorder
+        (reporter_order,reporter_name,reporter_phone,reporter_time,reporter_addr,accident_addr,accident_label,accident_content,accident_pic,resource_recommend,remark)
+        values
+        (#{reporterOrder},#{reporterName},#{reporterPhone},now(),#{reporterAddr},#{accidentAddr},#{accidentLabel},#{accidentContent},#{accidentPic},#{resourceRecommend},#{remark})
+    </insert>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dianzi.es.rep.dao.UrgentVoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <select id="findAll" resultType="com.dianzi.es.rep.vo.UrgentVo">
+       select a.*,b.accident_addr from rep_urgentorder a,rep_reportorder b
+       where a.reporter_order = b.reporter_order
+   </select>
+
+
+    <select id="GetOrdersByMonths" parameterType="string" resultType="com.dianzi.common.vo.MonthOrders" >
+        SELECT
+          SUM(1) orders,
+          DATE_FORMAT(accept_time,'%Y-%m') AS mon
+        FROM rep_urgentorder
+        WHERE
+          resource_id = #{resourceId}
+          and
+          DATE_FORMAT(accept_time ,'%Y-%m') > DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 12 MONTH),'%Y-%m')
+        GROUP BY mon
+    </select>
+
+
+</mapper>
